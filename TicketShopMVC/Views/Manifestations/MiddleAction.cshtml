@@ -1,0 +1,83 @@
+﻿@using TicketShopMVC.Models
+@model TicketShopMVC.Models.Manifestation
+@{
+    User user = (User)Session["user"];
+    if (user == null || !user.Role.Equals(Role.SALESMAN))
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+        ViewBag.Title = "Edit";
+        <h4>Welcome back, @user.Name</h4>
+
+        <h2>Edit manifestation</h2>
+        DateTime dt = @Model.DateAndTime;
+
+        string[] tokens = dt.ToString().Split('/');
+        string day = tokens[1];
+        string month = tokens[0];
+        string year = tokens[2].Split(' ')[0];
+        string hours = tokens[2].Split(' ')[1].Split(':')[0];
+        string minutes = tokens[2].Split(' ')[1].Split(':')[1];
+
+        string date = $"{year}-{month}-{day}T{hours}:{minutes}";
+        <div>
+            <p style="color:red">@ViewBag.Message</p>
+        </div>
+
+        <form action="~/Manifestations/Modify" method="post">
+            <table>
+                <tr>
+                    <td>
+                        <label for="state">Status: </label>
+                        <input list="states" name="state" id="state" value="@Model.Status">
+
+                        <datalist id="states">
+                            <option value="ACTIVE"></option>
+                            <option value="INACTIVE"></option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" name="name" value="@Model.Name" /></td>
+                </tr>
+                <tr>
+                    <td>Kind:</td>
+                    <td><input type="text" name="manifestationType" value="@Model.ManifestationType" /></td>
+                </tr>
+                <tr>
+                    <td>Capacity:</td>
+                    <td><input type="number" name="numOfSeats" value="@Model.numOfSeats" /></td>
+                </tr>
+                <tr>
+                    <td>Date:</td>
+                    <td><input type="datetime-local" name="dateAndTime" value="@date" /></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td><input type="text" name="priceRegular" value="@Model.PriceRegular" /></td>
+                </tr>
+                <tr>
+                    <td>Place:</td>
+                    <td>
+                        Street and number: <input type="text" name="address" value="@Model.Place.Address" /><br />
+                        City: <input type="text" name="city" value="@Model.Place.City" /><br />
+                        ZIP Code: <input type="number" name="zip" value="@Model.Place.ZIPCode" /><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Modify" /></td>
+                </tr>
+            </table>
+        </form>
+    }
+
+}
+
+
+

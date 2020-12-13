@@ -1,0 +1,81 @@
+﻿@using TicketShopMVC.Models
+
+@{
+    User user = (User)Session["user"];
+    if (user == null)
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+        ViewBag.Title = "Edit";
+        <h4>Welcome back, @user.Name</h4>
+
+        <h2>Edit</h2>
+
+        <div>
+            <p style="color:red">@ViewBag.Message</p>
+        </div>
+
+        <form action="~/Profile/Modify" method="post">
+            <table>
+                <tr>
+                    <td>username:</td>
+                    <td><input type="text" name="username" value="@Model.Username" /></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="password" value="@Model.Password" /></td>
+                </tr>
+                <tr>
+                    <td>Name: </td>
+                    <td><input type="text" name="name" value="@Model.Name" /></td>
+                </tr>
+                <tr>
+                    <td>Lastname: </td>
+                    <td><input type="text" name="lastname" value="@Model.Lastname" /></td>
+                </tr>
+                <tr>
+                    <td>Gender: </td>
+                    @if (Model.Gender.Equals(Gender.MALE))
+                    {
+                        <td>
+                            <input type="radio" name="gender" checked value="MALE" /> <label for="MALE">Male</label><br />
+                            <input type="radio" name="gender" value="FEMALE" /> <label for="FEMALE">Female</label><br />
+                            <input type="radio" name="gender" value="OTHER" /> <label for="OTHER">Other</label>
+                        </td>
+                    }
+                    else if (Model.Gender.Equals(Gender.FEMALE))
+                    {
+                        <td>
+                            <input type="radio" name="gender" value="MALE" /> <label for="MALE">Male</label><br />
+                            <input type="radio" name="gender" checked value="FEMALE" /> <label for="FEMALE">Female</label><br />
+                            <input type="radio" name="gender" value="OTHER" /> <label for="OTHER">Other</label>
+                        </td>
+                    }
+                    else if (Model.Gender.Equals(Gender.OTHER))
+                    {
+                        <td>
+                            <input type="radio" name="gender" value="MALE" /> <label for="MALE">Male</label><br />
+                            <input type="radio" name="gender" value="FEMALE" /> <label for="FEMALE">Female</label><br />
+                            <input type="radio" name="gender" checked value="OTHER" /> <label for="OTHER">Other</label>
+                        </td>
+                    }
+
+                </tr>
+                <tr>
+                    <td>Birth Date: </td>
+                    <td><input type="date" name="dateOfBirth" value="@Model.DateOfBirth" /></td>
+                </tr>
+                <tr>
+
+                    <td align="center"><br /><input type="submit" value="Modify" /></td>
+                </tr>
+            </table>
+        </form>
+    }
+}
+

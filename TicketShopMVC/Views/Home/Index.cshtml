@@ -1,0 +1,283 @@
+﻿@using TicketShopMVC.Models
+@model IEnumerable<Manifestation>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@{
+    int admin = 0;
+    int customer = 0;
+    int salesman = 0;
+    User user = (User)Session["user"];
+    if (user != null)
+    {
+        <h4>Welcome back, @user.Name</h4>
+        if (user.Role.Equals(Role.ADMINISTRATOR))
+        {
+            admin = 1;
+        }
+        else if (user.Role.Equals(Role.CUSTOMER))
+        {
+            customer = 1;
+        } else if (user.Role.Equals(Role.SALESMAN))
+        {
+            salesman = 1;
+
+        }
+    }
+
+    DateTime minDate = Model.Min(t => t.DateAndTime);
+    DateTime maxDate = Model.Max(t => t.DateAndTime);
+
+    string[] tokensMin = minDate.ToString().Split('/');
+    string dayMin = tokensMin[1];
+    string monthMin = tokensMin[0];
+    string yearMin = tokensMin[2].Split(' ')[0];
+    string hoursMin = tokensMin[2].Split(' ')[1].Split(':')[0];
+    string minutesMin = tokensMin[2].Split(' ')[1].Split(':')[1];
+
+    string minDateS = $"{yearMin}-{monthMin}-{dayMin}T{hoursMin}:{minutesMin}";
+
+    string[] tokensMax = maxDate.ToString().Split('/');
+    string dayMax = tokensMax[1];
+    string monthMax = tokensMax[0];
+    string yearMax = tokensMax[2].Split(' ')[0];
+    string hoursMax = tokensMax[2].Split(' ')[1].Split(':')[0];
+    string minutesMax = tokensMax[2].Split(' ')[1].Split(':')[1];
+
+    string maxDateS = $"{yearMax}-{monthMax}-{dayMax}T{hoursMax}:{minutesMax}";
+
+
+}
+
+<br />
+<table align="center"  style="width:1100px;height:auto">
+    <tr>
+        <td align="right" colspan="2">
+            <form action="~/Home/Search" method="get">
+                <table width="770">
+                    <tr>
+                        <td style="color:dimgray;font-family:Ebrima">Name</td>
+                        <td style="color:dimgray;font-family:Ebrima">City</td>
+                        <td style="color:dimgray;font-family:Ebrima">Date From</td>
+                        <td style="color:dimgray;font-family:Ebrima">Date To</td>
+                        <td style="color:dimgray;font-family:Ebrima">Price From</td>
+                        <td style="color:dimgray;font-family:Ebrima">Price To</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input style="width:120px" type="text" name="name" />
+                        </td>
+                        <td>
+                            <input style="width:120px" type="text" name="city" />
+                        </td>
+                        <td>
+                            <input style="width:190px" type="datetime-local" name="dateFrom" value="@minDateS" />
+                        </td>
+                        <td>
+                            <input style="width:190px" type="datetime-local" name="dateTo" value="@maxDateS"/>
+                        </td>
+                        <td>
+                            <input style="width:80px" type="number" name="priceFrom" />
+                        </td>
+                        <td>
+                            <input style="width:80px" type="number" name="priceTo" />
+                        </td>
+                        <td>
+                            <input type="image" name="submit" src="~/Files/search1.png" border="0" alt="Submit" style="width:30px" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" width="80">
+            <table width="120"  align="center" frame="void"  style="border:thin,solid;display:inline-block;background-color:aliceblue;height:auto">
+                <tr>
+                    <td>
+                        <b>Filter:</b><br />
+                        <form action="~/Home/Filter" method="get">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="koncert" /><label for="koncert"><b>Koncert</b></label><br />
+                                        <input type="checkbox" name="festa" /><label for="festa"><b>Festa</b></label><br />
+                                        <input type="checkbox" name="festival" /><label for="festival"><b>Festival</b></label><br />
+                                        <input type="checkbox" name="available" /><label for="available"><b>Available only</b></label><br />
+                                        <input style="text-align:center" type="submit" value="FILTER" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+                <tr height ="35">
+                    <td><b>Sort by:</b></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsExpensiveFirst">Price High To Low</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsCheapFirst">Price Low To High</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsNameAsc">Name Ascending</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsNameDesc">Name Descending</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsDateAsc">Date Ascending</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsDateDesc">Date Descending</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsPlaceAsc">Place Ascending</a></td>
+                </tr>
+                <tr height="25">
+                    <td style="font-family:Ebrima"><a href="~/Home/SortManifestationsPlaceDesc">Place Descending</a></td>
+                </tr>
+                <tr height="80" style="text-align:center">
+                    <td>
+                        <form action="~/Home/ResetSort" method="get">
+                            <input type="submit" value="Reset All" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+        <td>
+            
+            <table frame="hsides" cellspacing="1" align="center" style="border-color:darkgrey" width="900">
+                <tr><th colspan="7" height="40" style="text-align:center; background-color:cornflowerblue;font-family:Impact;font-size:large">Manifestation List</th></tr>
+                <tr style="background-color:antiquewhite">
+                    <th style="text-align:center">Name</th>
+                    <th style="text-align:center">Type</th>
+                    <th style="text-align:center">Capacity</th>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Price</th>
+                    <th style="text-align:center">Status</th>
+                    <th style="text-align:center">Place</th>
+                    @if (admin.Equals(1))
+                    {
+                        <th width="70" style="text-align:center">Action</th>
+                    }
+
+
+                </tr>
+                @{
+                    var countId = 0;
+                }
+                @foreach (Manifestation item in Model)
+                {
+                    if (admin.Equals(1))
+                    {
+                        <tr style="background-color:azure">
+                            
+                            <td width="80" style="text-align:center">@item.Name</td>
+                            <td width="80" style="text-align:center">@item.ManifestationType</td>
+                            <td width="80" style="text-align:center">@item.numOfSeats</td>
+                            <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                            <td width="60" style="text-align:center">@item.PriceRegular</td>
+                            <td width="100" style="text-align:center">@item.Status</td>
+                            <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                            
+                            <td width="60">
+                                @if (item.Status.Equals(Status.INACTIVE))
+                                {
+                                    <form method="get" action="~/Manifestations/Allow">
+                                        <input hidden type="text" name="id" value="@countId" />
+                                        <input type="submit" value="Allow" />
+                                    </form>
+                                }
+                                    <form action="~/Manifestations/Info" method="post">
+                                        <input hidden type="text" name="id" value="@countId" />
+                                        <input type="submit" value="Info" />
+                                    </form>
+                                </td>
+                            
+                        </tr>
+                        
+                    }
+                    else if (salesman == 1)
+                    {
+                        if (item.Status.Equals(Status.ACTIVE))
+                        {
+                        <tr style="background-color:azure">
+                            <td width="80" style="text-align:center">@item.Name</td>
+                            <td width="80" style="text-align:center">@item.ManifestationType</td>
+                            <td width="80" style="text-align:center">@item.numOfSeats</td>
+                            <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                            <td width="60" style="text-align:center">@item.PriceRegular</td>
+                            <td width="100" style="text-align:center">@item.Status</td>
+                            <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                            <td width="50">
+                                <form action="~/Manifestations/Info" method="post">
+                                    <input hidden type="text" name="id" value="@countId" />
+                                    <input type="submit" value="Info" />
+                                </form>
+                            </td>
+                            
+                        </tr>
+                        }
+                        else if (item.Status.Equals(Status.INACTIVE))
+                        {
+                            foreach (Manifestation userM in user.Manifestations)
+                            {
+                                if (userM.Name.Equals(item.Name))
+                                {
+                                    <tr style="background-color:azure">
+                                        <td width="80" style="text-align:center">@item.Name</td>
+                                        <td width="80" style="text-align:center">@item.ManifestationType</td>
+                                        <td width="80" style="text-align:center">@item.numOfSeats</td>
+                                        <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                                        <td width="60" style="text-align:center">@item.PriceRegular</td>
+                                        <td width="100" style="text-align:center">@item.Status</td>
+                                        <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                                        <td width="50">
+                                            <form action="~/Manifestations/Info" method="post">
+                                                <input hidden type="text" name="id" value="@countId" />
+                                                <input type="submit" value="Info" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (@item.Status.Equals(Status.ACTIVE))
+                        {
+                        <tr style="background-color:azure">
+                            <td width="80" style="text-align:center">@item.Name</td>
+                            <td width="80" style="text-align:center">@item.ManifestationType</td>
+                            <td width="80" style="text-align:center">@item.numOfSeats</td>
+                            <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                            <td width="60" style="text-align:center">@item.PriceRegular</td>
+                            <td width="100" style="text-align:center">@item.Status</td>
+                            <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                            <td width="50">
+                                <form action="~/Manifestations/Info" method="post">
+                                    <input hidden type="text" name="id" value="@countId" />
+                                    <input type="submit" value="Info" />
+                                </form>
+                            </td>
+                        </tr>
+                        }
+                    }
+                    countId++;
+
+                 }
+            </table>
+        </td>
+    
+</table>
+<br />
+    
+

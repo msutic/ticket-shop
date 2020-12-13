@@ -1,0 +1,118 @@
+﻿@using TicketShopMVC.Models
+@model TicketShopMVC.Models.User
+@{
+
+
+    User user = (User)Session["user"];
+    if (user == null)
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+
+        ViewBag.Title = "Account Info";
+        <h2>Account Info</h2>
+        <br />
+        <form method="get" action="~/Profile/Edit">
+            <input hidden type="text" name="username" value="@user.Username" />
+            <input type="submit" value="Edit" />
+        </form>
+        <div>
+            <table>
+                <tr>
+                    <td>username:</td>
+                    <td>@user.Username</td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td>@user.Password</td>
+                </tr>
+                <tr>
+                    <td>name:</td>
+                    <td>@user.Name</td>
+                </tr>
+                <tr>
+                    <td>lastname:</td>
+                    <td>@user.Lastname</td>
+                </tr>
+                <tr>
+                    <td>gender:</td>
+                    <td>@user.Gender</td>
+                </tr>
+                <tr>
+                    <td>date of birth:</td>
+                    <td>@user.DateOfBirth.ToString("dd/M/yyyy")</td>
+                </tr>
+                <tr>
+                    <td>role:</td>
+                    <td>@user.Role</td>
+                </tr>
+                @if (user.Role.Equals(Role.CUSTOMER))
+                {
+                    <tr>
+                        <td>reserved tickets:</td>
+                        <td>@user.ResrvedTickets</td>
+                    </tr>
+                    <tr>
+                        <td>earned points:</td>
+                        <td>@user.EarnedPoints</td>
+                    </tr>
+                    <tr>
+                        <td>user type:</td>
+                        @if (user.UserType.TypeName.Equals("Regular"))
+                        {
+                            <td>type: @user.UserType.TypeName <br />discount: @user.UserType.Discount%<br />points needed for bronze: @user.UserType.PointsNeeded</td>
+
+                        }
+                        else if (user.UserType.TypeName.Equals("Bronze"))
+                        {
+                            <td>type: @user.UserType.TypeName <br />discount: @user.UserType.Discount%<br />points needed for silver: @user.UserType.PointsNeeded</td>
+
+                        }
+                        else if (user.UserType.TypeName.Equals("Silver"))
+                        {
+                            <td>type: @user.UserType.TypeName <br />discount: @user.UserType.Discount%<br />points needed for gold: @user.UserType.PointsNeeded</td>
+
+                        }
+                        else if (user.UserType.TypeName.Equals("Gold"))
+                        {
+                            <td>type: @user.UserType.TypeName <br />discount: @user.UserType.Discount% <br />points needed for platinum: @user.UserType.PointsNeeded</td>
+
+                        }
+                        else if (user.UserType.TypeName.Equals("Platinum"))
+                        {
+                            <td>type: @user.UserType.TypeName <br />discount: @user.UserType.Discount% <br /></td>
+
+                        }
+                    </tr>
+                }
+                @if (user.Role.Equals(Role.SALESMAN))
+                {
+                    <tr>
+                        <td>
+                            Manifestations: 
+                        </td>
+                        <td>
+                            @foreach (Manifestation m in user.Manifestations)
+                            {
+                            <div> - @m.Name, @m.ManifestationType, @m.numOfSeats, @m.DateAndTime.ToString("dd/MM/yyyy hh:mm tt"), @m.PriceRegular, @m.Status, @m.Place.Address, @m.Place.City, @m.Place.ZIPCode</div>
+                            }
+                        </td>
+                    </tr>
+                }
+
+
+
+            </table>
+
+        </div>
+    }
+
+}
+
+
+

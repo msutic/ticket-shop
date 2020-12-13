@@ -1,0 +1,38 @@
+﻿@using TicketShopMVC.Models
+@{
+    ViewBag.Title = "Login";
+
+    User u = (User)Session["user"];
+    if (u != null)
+    {
+        <br />
+        <h4>You are already logged in as <i>@u.Username</i>.</h4>
+    }
+    else
+    {
+        <h2>Login Page</h2>
+        <br />
+        <div>
+            <p style="color:red">@ViewBag.Message</p>
+        </div>
+
+        <form action="~/Authenticate/Login" method="post">
+            <table>
+                <tr>
+                    <td>Username: </td>
+                    <td><input type="text" name="username" /></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td><br /><input type="submit" value="Log In" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <br />
+        <h6>Don't have an account? <a href="~/Authenticate/Register">Register</a></h6>
+    }
+}

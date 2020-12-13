@@ -1,0 +1,65 @@
+﻿@using TicketShopMVC.Models
+@model TicketShopMVC.Models.User
+
+@{
+    ViewBag.Title = "Register";
+
+    User user = (User)Session["user"];
+
+    if (user != null)
+    {
+        <br />
+        <h4>You are already a member. To register a new account you first need to sign out.</h4>
+    }
+    else
+    {
+        <h2>@ViewBag.Title</h2>
+
+        <div>
+            <p style="color:red">@ViewBag.Message</p>
+        </div>
+
+        <form action="Register" method="post">
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td><input type="text" name="username" /></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td>Name: </td>
+                    <td><input type="text" name="name" /></td>
+                </tr>
+                <tr>
+                    <td>Lastname: </td>
+                    <td><input type="text" name="lastname" /></td>
+                </tr>
+                <tr>
+                    <td>Gender: </td>
+                    <td>
+                        <input type="radio" name="gender" value="MALE" /> <label for="MALE">Male</label><br />
+                        <input type="radio" name="gender" value="FEMALE" /> <label for="FEMALE">Female</label><br />
+                        <input type="radio" name="gender" value="OTHER" /> <label for="OTHER">Other</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Birth Date: </td>
+                    <td><input type="date" name="dateOfBirth" /></td>
+                </tr>
+                <tr>
+
+                    <td align="center"><br /><input type="submit" value="Register" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <div>
+            <br />
+            <p>Already a member? <a href="/Authentication/Index">Log In</a></p>
+        </div>
+    }
+}
+

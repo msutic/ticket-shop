@@ -1,0 +1,59 @@
+﻿@using TicketShopMVC.Models
+@{
+    User u = (User)Session["user"];
+    if (u == null || !u.Role.Equals(Role.SALESMAN))
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+        ViewBag.Title = "Add a manifestation";
+        <h4>Welcome back, @u.Name</h4><br />
+
+        <h2>@ViewBag.Title</h2>
+        <div>
+            <p style="color:red">@ViewBag.Message</p>
+        </div>
+
+        <form action="Add" method="post">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" name="name" /></td>
+                </tr>
+                <tr>
+                    <td>Kind:</td>
+                    <td><input type="text" name="manifestationType" /></td>
+                </tr>
+                <tr>
+                    <td>Capacity:</td>
+                    <td><input type="number" name="numOfSeats" value="1"/></td>
+                </tr>
+                <tr>
+                    <td>Date:</td>
+                    <td><input type="datetime-local" name="dateAndTime" /></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td><input type="text" name="priceRegular" value="1" /></td>
+                </tr>
+                <tr>
+                    <td>Place:</td>
+                    <td>
+                        Street and number: <input type="text" name="address" /><br />
+                        City: <input type="text" name="city" /><br />
+                        ZIP Code: <input type="number" name="zipCode" value="1"/><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="ADD" /></td>
+                </tr>
+            </table>
+        </form>
+    }
+}
+
+

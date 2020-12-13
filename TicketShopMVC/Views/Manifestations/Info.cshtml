@@ -1,0 +1,66 @@
+﻿@using TicketShopMVC.Models
+@model TicketShopMVC.Models.Manifestation
+@{
+    /**/
+
+    <h2>Info</h2>
+
+    int salesman = 0;
+    User user = (User)Session["user"];
+
+    if (user != null)
+    {
+        <h4>Welcome back, @user.Name</h4>
+
+        if (user.Role.Equals(Role.SALESMAN))
+        {
+            salesman = 1;
+        }
+    }
+
+    ViewBag.Title = "Info";
+
+    <table frame="hsides" cellspacing="1" align="center" style="border-color:darkgrey" width="900">
+        <tr style="background-color:antiquewhite">
+            <td>Name</td>
+            <td>Kind</td>
+            <td>Capacity</td>
+            <td>Date</td>
+            <td>Price</td>
+            <td>Status</td>
+            <td>Place</td>
+        </tr>
+        <tr>
+            <td>@Model.Name</td>
+            <td>@Model.ManifestationType</td>
+            <td>@Model.numOfSeats</td>
+            <td>@Model.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+            <td>@Model.PriceRegular</td>
+            <td>@Model.Status</td>
+            <td>
+                @Model.Place.Address<br />
+                @Model.Place.City<br />
+                @Model.Place.ZIPCode
+            </td>
+        </tr>
+    </table>
+    <br />
+    if (salesman == 1)
+    {
+        for (int i = 0; i < user.Manifestations.Count; i++)
+        {
+            if (user.Manifestations[i].Name.ToLower().Equals(Model.Name.ToLower()))
+            {
+                <form action="~/Manifestations/Edit" method="post">
+                    <input type="text" hidden name="name" value="@Model.Name" />
+                    <input type="submit" value="Edit" />
+                </form>
+            }
+        }
+
+    }
+
+}
+
+
+

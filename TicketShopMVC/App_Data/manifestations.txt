@@ -1,0 +1,16 @@
+Bijelo Dugme;Koncert;6000;17/09/2020 12:45 PM;2000;INACTIVE;Dunavska 14,Backa Palanka,21555
+Kobasicijada;Festa;800;19/09/2020 12:20 PM;300;ACTIVE;Janka Cmelika 14,Novi Sad,21000
+fdsfds;sdfdsf;1;19/09/2020 12:20 PM;1;INACTIVE;,,1
+ttt;w;1;19/09/2020 12:20 PM;1;INACTIVE;tttt 2,w,1
+xcv;e;1;19/09/2020 12:20 PM;1;ACTIVE;Dunavska 14,Backa Palanka,21555
+Cvarkijada;Festa;400;22/09/2020 12:00 PM;150;INACTIVE;Cirpanova 15,Novi Sad,21000
+Kulenijada;Festa;1000;27/09/2020 02:10 PM;500;ACTIVE;Nikole Tesle 22,Silbas,21433
+Rastanijada;Festa;700;30/09/2020 03:15 PM;200;INACTIVE;Sutjeska 1,Gajdobra,21432
+Rambo Amadeus;Koncert;3500;27/10/2020 09:40 PM;1000;INACTIVE;Admirala Vukovica 15,Beograd,11000
+Rakijada;Festa;2000;17/11/2020 11:30 AM;100;INACTIVE;Strazilovska 19,Novi Sad,21000
+Zdravko Colic;Koncert;5000;08/12/2020 09:30 AM;2500;INACTIVE;Sutjeska 4,Beograd,11000
+Pink Floyd;Koncert;10000;15/12/2020 09:28 PM;5000;INACTIVE;Beogradska Arena,Beograd,11000
+Vlado Georgijev;Koncert;4000;05/01/2021 08:00 PM;2700;INACTIVE;Mihaila Pupina 77,Beograd,11000
+Deep Purple;Koncert;10000;12/05/2021 09:33 PM;5000;INACTIVE;Beogradska Arena,Beograd,11000
+EXIT;Festival;1000;15/08/2021 02:00 AM;5999;ACTIVE;Beogradska 1,Novi Sad,21000
+Koncert godine;Festival;900;22/09/2021 06:40 PM;2999;ACTIVE;Beogradska 1,Novi Sad,21000

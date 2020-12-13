@@ -1,0 +1,166 @@
+﻿@using TicketShopMVC.Models
+@model IEnumerable<User>
+
+@{
+    User u = (User)Session["user"];
+    if (u == null || !u.Role.Equals(Role.ADMINISTRATOR))
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+        ViewBag.Title = "Registered Users";
+        <h4>Welcome back, @u.Name</h4><br />
+
+        <h3 style="font-family:'Bell MT';text-align:center"><u>List of all users</u></h3> <br />
+
+        <table align="center"  style="width:1000px;height:auto">
+            <tr>
+                <td colspan="2" align="right">
+                    <table width="1000" >
+                        <tr>
+                            <td  align="left">
+                                <form action="~/RegisteredUsers/Filter" method="get">
+                                    <table frame="vsides" width="420">
+                                        <tr>
+                                            <td style="color:dimgrey">Role</td>
+                                            <td style="color:dimgrey">User Type</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="120">
+                                                <input style="width:30px" type="checkbox" name="admin" /><label for="admin"><b>Admin</b></label><br />
+                                                <input style="width:30px" type="checkbox" name="customer" /><label for="customer"><b>Customer</b></label><br />
+                                                <input style="width:30px" type="checkbox" name="salesman" /><label for="salesman"><b>Salesman</b></label>
+                                            </td>
+                                            <td width="300">
+                                                <input style="width:30px" type="checkbox" name="regular" /><label for="regular"><b>Regular</b></label>
+                                                <input style="width:30px" type="checkbox" name="bronze" /><label for="Bronze"><b>Bronze</b></label>
+                                                <input style="width:30px" type="checkbox" name="silver" /><label for="Silver"><b>Silver</b></label><br />
+                                                <input style="width:30px" type="checkbox" name="gold" /><label for="Gold"><b>Gold</b></label>
+                                                <input style="width:30px" type="checkbox" name="platinum" /><label for="Platinum"><b>Platinum</b></label>
+                                            </td>
+                                            <td colspan="2" align="center">
+                                                <input style="font-family:'Bell MT'" type="submit" value="FILTER" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </td>
+                            <td width="470" align="right">
+                                <form action="~/RegisteredUsers/Search" method="get">
+                                    <table>
+                                        <tr>
+                                            <td style="color:dimgray">Name</td>
+                                            <td style="color:dimgray">Lastname</td>
+                                            <td style="color:dimgray">Username</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:135px"><input style="width:130px" type="text" name="nameOption" /></td>
+                                            <td style="width:135px">
+                                                <input style="width:130px" type="text" name="lastnameOption" />
+                                            </td>
+                                            <td style="width:135px">
+                                                <input style="width:130px" type="text" name="usernameOption" />
+                                            </td>
+                                            <td>
+                                                <input type="image" name="submit" src="~/Files/search1.png" border="0" alt="Submit" style="width:40px" />
+                                            </td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="right">
+                                                <a href="~/RegisteredUsers/Reset">Reset All</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="border:thin,solid;display:inline-block;background-color:aliceblue">
+                        <tr>
+                            <td><b>Sort by:</b></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortNameAsc">Name Ascending</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortNameDesc">Name Descending</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortLastnameAsc">Lastame Ascending</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortLastnameDesc">Lastame Descending</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortUsernameAsc">Username Ascending</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortUsernameDesc">Username Descending</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortPointsAsc">Points Low To High</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="~/RegisteredUsers/SortPointsDesc">Points High To Low</a></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table border="1" align="center" cellpadding="30" style="border-color:darkgrey; width:840px">
+                        <tr>
+                            <th style="text-align:center;background-color:azure">Userame</th>
+                            <th style="text-align:center;background-color:azure">Password</th>
+                            <th style="text-align:center;background-color:azure">Name</th>
+                            <th style="text-align:center;background-color:azure">Lastame</th>
+                            <th style="text-align:center;background-color:azure">Gender</th>
+                            <th style="text-align:center;background-color:azure">BirthDate</th>
+                            <th style="text-align:center;background-color:azure">Role</th>
+                            <th style="text-align:center;background-color:azure">Action</th>
+                        </tr>
+                        @{ var countId = 0;}
+                        @foreach (User user in Model)
+                        {
+                            if (!user.IsDeleted)
+                            {
+                                <tr>
+                                    <td>@user.Username</td>
+                                    <td>@user.Password</td>
+                                    <td>@user.Name</td>
+                                    <td>@user.Lastname</td>
+                                    <td>@user.Gender</td>
+                                    <td>@user.DateOfBirth.ToString("dd/M/yyyy")</td>
+                                    <td>@user.Role</td>
+                                    <td>
+                                        @if (!user.Role.Equals(Role.ADMINISTRATOR))
+                                        {
+                                            <form method="get" action="~/RegisteredUsers/Remove">
+                                                <input type="hidden" name="username" value="@user.Username" />
+                                                <input type="submit" value="Remove" />
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                                countId++;
+                            }
+
+                        }
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+    }
+}
+
+
