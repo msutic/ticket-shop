@@ -174,6 +174,7 @@ namespace TicketShopMVC.Controllers
             Place place = new Place(address,city,int.Parse(zip));
             manifestation.Place = place;
             manifestation.Status = (Status)Enum.Parse(typeof(Status), state);
+            manifestation.Name = selectedManifestation.Name;
 
             if(!manifestation.Status.Equals(Status.ACTIVE) && !manifestation.Status.Equals(Status.INACTIVE))
             {
@@ -187,24 +188,6 @@ namespace TicketShopMVC.Controllers
                 {
                     TempData["Message"] = "You don't have the authority to change manifestation state from INACTIVE to ACTIVE.";
                     return RedirectToAction("MiddleAction", "Manifestations");
-                }
-            }
-
-            if (manifestation.Name == null)
-            {
-                TempData["Message"] = "Manifestation name is required.";
-                return RedirectToAction("MiddleAction","Manifestations");
-            }
-            for (int i = 0; i < allManifestations.Count; i++)
-            {
-                if (allManifestations[i].Name.Equals(manifestation.Name))
-                {
-                    if(savedIndex.SavedIndex != i)
-                    {
-                        TempData["Message"] = $"Manifestation with name {manifestation.Name} already exists.";
-                        return RedirectToAction("MiddleAction", "Manifestations");
-                    }
-                    
                 }
             }
             if (manifestation.ManifestationType == null)
@@ -291,23 +274,6 @@ namespace TicketShopMVC.Controllers
             }
 
             FileOperations.OverwriteUsers(users);
-
-            //for(int i = 0; i < users.Count; i++)
-            //{
-            //    if(users[i].Manifestations.Count != 0)
-            //    {
-            //        List<Manifestation> mani = users[i].Manifestations;
-            //        for(int j = 0; j < mani.Count; j++)
-            //        {
-            //            if(mani[j].Name == selectedManifestation.Name)
-            //            {
-            //                mani[j] = manifestation;
-            //                break;
-            //            }
-            //        }
-            //        users[i].Manifestations = mani;
-            //    }
-            //}
 
 
             return View("Info",manifestation);

@@ -1,0 +1,64 @@
+﻿@using TicketShopMVC.Models
+@model IEnumerable<Ticket>
+@{
+    User user = (User)Session["user"];
+    if (user == null)
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+        ViewBag.Title = "Show Tickets";
+        <h4>Welcome back, @user.Name</h4>
+
+        <table width="1100">
+            <tr>
+                <td width="800">
+                    <table width="800" frame="hsides">
+                        <tr style="background-color:antiquewhite">
+                            <td>id</td>
+                            <td>manifestation</td>
+                            <td>date</td>
+                            <td>price</td>
+                            <td>customer</td>
+                            <td>status</td>
+                            <td>type</td>
+                        </tr>
+
+                        @foreach (Ticket item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.ReservedFor.Name</td>
+                                <td>@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                                <td>@item.Price</td>
+                                <td>
+                                    @item.Customer.Name
+                                    @item.Customer.Lastname
+                                </td>
+                                <td>@item.Status</td>
+                                <td>@item.Type</td>
+                            </tr>
+                        }
+
+                    </table>
+                </td>
+                <td valign="top" width="300">
+                    <form>
+                        <table width="300">
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+
+                </td>
+            </tr>
+        </table>
+    }
+
+}
+

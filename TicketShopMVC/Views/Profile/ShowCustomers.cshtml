@@ -1,0 +1,49 @@
+﻿
+@using TicketShopMVC.Models
+@model IEnumerable<User>
+@{
+    User user = (User)Session["user"];
+    if (user == null || !user.Role.Equals(Role.SALESMAN))
+    {
+        ViewBag.Title = "Not Found";
+        <h3 style="color:darkgray;text-align:center">Page not found</h3>
+        <h4 style="color:darkgray;text-align:center">We can't seem to find the page you're looking for</h4>
+        <h5 style="text-align:center">Go to <a href="/Home/Index">Home Page</a></h5>
+    }
+    else
+    {
+        ViewBag.Title = "ShowTickets";
+        <h4>Welcome back, @user.Name</h4>
+        <h2>All Customers</h2>
+
+        <table border="1" align="center" cellpadding="30" style="border-color:darkgrey; width:840px">
+            <tr>
+                <th style="text-align:center;background-color:azure">Userame</th>
+                <th style="text-align:center;background-color:azure">Password</th>
+                <th style="text-align:center;background-color:azure">Name</th>
+                <th style="text-align:center;background-color:azure">Lastame</th>
+                <th style="text-align:center;background-color:azure">Gender</th>
+                <th style="text-align:center;background-color:azure">BirthDate</th>
+                <th style="text-align:center;background-color:azure">Role</th>
+                <th style="text-align:center;background-color:azure">Action</th>
+            </tr>
+            @foreach (User u in Model)
+            {
+                if (!user.IsDeleted)
+                {
+                    <tr>
+                        <td>@u.Username</td>
+                        <td>@u.Password</td>
+                        <td>@u.Name</td>
+                        <td>@u.Lastname</td>
+                        <td>@u.Gender</td>
+                        <td>@u.DateOfBirth.ToString("dd/M/yyyy")</td>
+                        <td>@u.Role</td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+
+}

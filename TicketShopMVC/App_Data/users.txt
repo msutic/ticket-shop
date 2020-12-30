@@ -1,5 +1,7 @@
 makro;maki123;Marko;Sutic;MALE;22/08/1997;ADMINISTRATOR
 mare;me;mare;merak;MALE;01/01/0001;CUSTOMER;LIST;0;Regular,0,1000;
 m;m;m;m;MALE;05/08/2020;CUSTOMER;LIST;0;Regular,0,1000;DELETED
-me;me;mariola;makile;MALE;14/09/2020;CUSTOMER;LIST;2000;Silver,5,2000;
-pera;pera;Petrario;Petrovic;MALE;07/9/2020;SALESMAN;Bijelo Dugme,Zdravko Colic,EXIT,fdsfds,ttt,xcv,;
+me;me;mariola;makile;MALE;09/06/2021;CUSTOMER;LIST;2000;Silver,5,2000;
+pera;pera;Petrario;Petrovic;MALE;07/9/2020;SALESMAN;Bijelo Dugme,Pink Floyd,Deep Purple,EXIT,;
+mima;mima123;Miljana;B;FEMALE;30/3/1998;SALESMAN;Rambo Amadeus,Zdravko Colic,Vlado Georgijev,Parni Valjak,Kanye West,;
+jova;jova;Jova;Jovanovic;MALE;02/9/2020;SALESMAN;Kobasicijada,Cvarkijada,Kulenijada,Rastanijada,Rakijada,;

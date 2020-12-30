@@ -14,6 +14,8 @@ namespace TicketShopMVC.Models
         public Nullable<Gender> Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Role Role { get; set; }
+        public List<string> TicketIds { get; set; }
+        public List<string> ManifestationNames { get; set; }
         public List<Ticket> ResrvedTickets { get; set; }
         public List<Manifestation> Manifestations { get; set; }
         public int EarnedPoints { get; set; }
@@ -45,8 +47,9 @@ namespace TicketShopMVC.Models
 
         //FOR CUSTOMERS
         public User(string username, string password, string name, string lastname, Gender gender, DateTime dateOfBirth, Role role, 
-                    List<Ticket> resrvedTickets, int earnedPoints, UserType userType)
+                    List<string> ticketIds, int earnedPoints, UserType userType)
         {
+            TicketIds = ticketIds;
             Username = username;
             Password = password;
             Name = name;
@@ -54,15 +57,16 @@ namespace TicketShopMVC.Models
             Gender = gender;
             DateOfBirth = dateOfBirth;
             Role = role;
-            ResrvedTickets = resrvedTickets;
+            ResrvedTickets = new List<Ticket>();
             EarnedPoints = earnedPoints;
             UserType = userType;
         }
 
         //FOR SALESMEN
         public User(string username, string password, string name, string lastname, Gender gender, DateTime dateOfBirth, Role role,
-                    List<Manifestation> manifestations)
+                    List<string> manifestationNames)
         {
+            ManifestationNames = manifestationNames;
             Username = username;
             Password = password;
             Name = name;
@@ -70,7 +74,7 @@ namespace TicketShopMVC.Models
             Gender = gender;
             DateOfBirth = dateOfBirth;
             Role = role;
-            Manifestations = manifestations;
+            Manifestations = new List<Manifestation>();
         }
 
         public override bool Equals(object obj)

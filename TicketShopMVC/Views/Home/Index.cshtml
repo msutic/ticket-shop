@@ -153,7 +153,7 @@
         <td>
             
             <table frame="hsides" cellspacing="1" align="center" style="border-color:darkgrey" width="900">
-                <tr><th colspan="7" height="40" style="text-align:center; background-color:cornflowerblue;font-family:Impact;font-size:large">Manifestation List</th></tr>
+                <tr><th colspan="8" height="40" style="text-align:center; background-color:cornflowerblue;font-family:Impact;font-size:large">Manifestation List</th></tr>
                 <tr style="background-color:antiquewhite">
                     <th style="text-align:center">Name</th>
                     <th style="text-align:center">Type</th>
@@ -162,10 +162,8 @@
                     <th style="text-align:center">Price</th>
                     <th style="text-align:center">Status</th>
                     <th style="text-align:center">Place</th>
-                    @if (admin.Equals(1))
-                    {
-                        <th width="70" style="text-align:center">Action</th>
-                    }
+                    <th width="70" style="text-align:center">Action</th>
+                    
 
 
                 </tr>
@@ -177,7 +175,7 @@
                     if (admin.Equals(1))
                     {
                         <tr style="background-color:azure">
-                            
+
                             <td width="80" style="text-align:center">@item.Name</td>
                             <td width="80" style="text-align:center">@item.ManifestationType</td>
                             <td width="80" style="text-align:center">@item.numOfSeats</td>
@@ -185,7 +183,7 @@
                             <td width="60" style="text-align:center">@item.PriceRegular</td>
                             <td width="100" style="text-align:center">@item.Status</td>
                             <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
-                            
+
                             <td width="60">
                                 @if (item.Status.Equals(Status.INACTIVE))
                                 {
@@ -194,59 +192,63 @@
                                         <input type="submit" value="Allow" />
                                     </form>
                                 }
-                                    <form action="~/Manifestations/Info" method="post">
-                                        <input hidden type="text" name="id" value="@countId" />
-                                        <input type="submit" value="Info" />
-                                    </form>
-                                </td>
-                            
-                        </tr>
-                        
-                    }
-                    else if (salesman == 1)
-                    {
-                        if (item.Status.Equals(Status.ACTIVE))
-                        {
-                        <tr style="background-color:azure">
-                            <td width="80" style="text-align:center">@item.Name</td>
-                            <td width="80" style="text-align:center">@item.ManifestationType</td>
-                            <td width="80" style="text-align:center">@item.numOfSeats</td>
-                            <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
-                            <td width="60" style="text-align:center">@item.PriceRegular</td>
-                            <td width="100" style="text-align:center">@item.Status</td>
-                            <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
-                            <td width="50">
                                 <form action="~/Manifestations/Info" method="post">
                                     <input hidden type="text" name="id" value="@countId" />
                                     <input type="submit" value="Info" />
                                 </form>
                             </td>
-                            
+
                         </tr>
+
+                    }
+                    else if (salesman == 1)
+                    {
+                        if (item.Status.Equals(Status.ACTIVE))
+                        {
+                            <tr style="background-color:azure">
+                                <td width="80" style="text-align:center">@item.Name</td>
+                                <td width="80" style="text-align:center">@item.ManifestationType</td>
+                                <td width="80" style="text-align:center">@item.numOfSeats</td>
+                                <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                                <td width="60" style="text-align:center">@item.PriceRegular</td>
+                                <td width="100" style="text-align:center">@item.Status</td>
+                                <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                                <td width="50">
+                                    <form action="~/Manifestations/Info" method="post">
+                                        <input hidden type="text" name="id" value="@countId" />
+                                        <input type="submit" value="Info" />
+                                    </form>
+                                </td>
+
+                            </tr>
                         }
                         else if (item.Status.Equals(Status.INACTIVE))
                         {
-                            foreach (Manifestation userM in user.Manifestations)
+                            if (user.Manifestations != null)
                             {
-                                if (userM.Name.Equals(item.Name))
+                                foreach (Manifestation userM in user.Manifestations)
                                 {
-                                    <tr style="background-color:azure">
-                                        <td width="80" style="text-align:center">@item.Name</td>
-                                        <td width="80" style="text-align:center">@item.ManifestationType</td>
-                                        <td width="80" style="text-align:center">@item.numOfSeats</td>
-                                        <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
-                                        <td width="60" style="text-align:center">@item.PriceRegular</td>
-                                        <td width="100" style="text-align:center">@item.Status</td>
-                                        <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
-                                        <td width="50">
-                                            <form action="~/Manifestations/Info" method="post">
-                                                <input hidden type="text" name="id" value="@countId" />
-                                                <input type="submit" value="Info" />
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    if (userM.Name.Equals(item.Name))
+                                    {
+                                        <tr style="background-color:azure">
+                                            <td width="80" style="text-align:center">@item.Name</td>
+                                            <td width="80" style="text-align:center">@item.ManifestationType</td>
+                                            <td width="80" style="text-align:center">@item.numOfSeats</td>
+                                            <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                                            <td width="60" style="text-align:center">@item.PriceRegular</td>
+                                            <td width="100" style="text-align:center">@item.Status</td>
+                                            <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                                            <td width="50">
+                                                <form action="~/Manifestations/Info" method="post">
+                                                    <input hidden type="text" name="id" value="@countId" />
+                                                    <input type="submit" value="Info" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             }
+
 
                         }
                     }
@@ -254,26 +256,26 @@
                     {
                         if (@item.Status.Equals(Status.ACTIVE))
                         {
-                        <tr style="background-color:azure">
-                            <td width="80" style="text-align:center">@item.Name</td>
-                            <td width="80" style="text-align:center">@item.ManifestationType</td>
-                            <td width="80" style="text-align:center">@item.numOfSeats</td>
-                            <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
-                            <td width="60" style="text-align:center">@item.PriceRegular</td>
-                            <td width="100" style="text-align:center">@item.Status</td>
-                            <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
-                            <td width="50">
-                                <form action="~/Manifestations/Info" method="post">
-                                    <input hidden type="text" name="id" value="@countId" />
-                                    <input type="submit" value="Info" />
-                                </form>
-                            </td>
-                        </tr>
+                            <tr  style="background-color:azure;text-align:center">
+                                <td width="80" style="text-align:center">@item.Name</td>
+                                <td width="80" style="text-align:center">@item.ManifestationType</td>
+                                <td width="80" style="text-align:center">@item.numOfSeats</td>
+                                <td width="110" style="text-align:center">@item.DateAndTime.ToString("dd/MM/yyyy hh:mm tt")</td>
+                                <td width="60" style="text-align:center">@item.PriceRegular</td>
+                                <td width="100" style="text-align:center">@item.Status</td>
+                                <td width="140" style="text-align:center">@item.Place.Address<br />@item.Place.City<br />@item.Place.ZIPCode</td>
+                                <td width="50">
+                                    <form action="~/Manifestations/Info" method="post">
+                                        <input hidden type="text" name="id" value="@countId" />
+                                        <input type="submit" value="Info" />
+                                    </form>
+                                </td>
+                            </tr>
                         }
                     }
                     countId++;
 
-                 }
+                }
             </table>
         </td>
     

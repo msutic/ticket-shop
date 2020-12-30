@@ -7,20 +7,25 @@ namespace TicketShopMVC.Models
 {
     public class Comment
     {
+        public string User { get; set; }
+        public string ManifestationName { get; set; }
         public User Customer { get; set; }
         public Manifestation Manifestation { get; set; }
         public string Text { get; set; }
         public int Rating { get; set; }
+        public bool Verified { get; set; }
 
         public Comment()
         {
 
         }
 
-        public Comment(User customer, Manifestation manifestation, string text, int rating)
+        public Comment(string user, string manifestation, string text, int rating)
         {
-            Customer = customer;
-            Manifestation = manifestation;
+            User = user;
+            ManifestationName = manifestation;
+            Customer = new User();
+            Manifestation = new Manifestation();
             Text = text;
             Rating = rating;
         }

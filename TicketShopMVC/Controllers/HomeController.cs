@@ -341,6 +341,14 @@ namespace TicketShopMVC.Controllers
                 }
             }
 
+            if(available == "on")
+            {
+                foreach(Manifestation m in manifestations)
+                {
+                    if (m.seatsAvailable > 0)
+                        filtered.Add(m);
+                }
+            }
             
 
             return View("Index", filtered);

@@ -10,11 +10,13 @@ namespace TicketShopMVC.Models
         public string Name { get; set; }
         public string ManifestationType { get; set; }
         public int numOfSeats { get; set; }
+        public int seatsAvailable { get; set; }
         public DateTime DateAndTime { get; set; }
         public int PriceRegular { get; set; }
         public Status Status { get; set; }
         public Place Place { get; set; }
         public Poster Poster { get; set; }
+        public List<Comment> Comments { get; set; }
 
         public Manifestation()
         {
@@ -23,6 +25,8 @@ namespace TicketShopMVC.Models
 
         public Manifestation(string name, string manifestationType, int numOfSeats, DateTime dateAndTime, int priceRegular, Status status, Place place)
         {
+            this.seatsAvailable = numOfSeats;
+            Comments = new List<Comment>();
             Name = name;
             ManifestationType = manifestationType;
             this.numOfSeats = numOfSeats;

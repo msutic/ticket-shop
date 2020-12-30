@@ -147,7 +147,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\comments.txt" />
     <Content Include="App_Data\manifestations.txt" />
+    <Content Include="App_Data\tickets.txt" />
     <Content Include="App_Data\users.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -195,6 +197,9 @@
     <Content Include="Views\Manifestations\Info.cshtml" />
     <Content Include="Views\Manifestations\Edit.cshtml" />
     <Content Include="Views\Manifestations\MiddleAction.cshtml" />
+    <Content Include="Views\Profile\ShowTickets.cshtml" />
+    <Content Include="Views\Profile\ShowCustomers.cshtml" />
+    <Content Include="Views\Profile\SearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

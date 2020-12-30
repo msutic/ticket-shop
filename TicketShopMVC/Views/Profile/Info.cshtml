@@ -17,6 +17,7 @@
         ViewBag.Title = "Account Info";
         <h2>Account Info</h2>
         <br />
+
         <form method="get" action="~/Profile/Edit">
             <input hidden type="text" name="username" value="@user.Username" />
             <input type="submit" value="Edit" />
@@ -54,10 +55,6 @@
                 @if (user.Role.Equals(Role.CUSTOMER))
                 {
                     <tr>
-                        <td>reserved tickets:</td>
-                        <td>@user.ResrvedTickets</td>
-                    </tr>
-                    <tr>
                         <td>earned points:</td>
                         <td>@user.EarnedPoints</td>
                     </tr>
@@ -94,22 +91,40 @@
                 {
                     <tr>
                         <td>
-                            Manifestations: 
+                            Manifestations:
                         </td>
                         <td>
-                            @foreach (Manifestation m in user.Manifestations)
+                            @if (user.Manifestations != null)
                             {
-                            <div> - @m.Name, @m.ManifestationType, @m.numOfSeats, @m.DateAndTime.ToString("dd/MM/yyyy hh:mm tt"), @m.PriceRegular, @m.Status, @m.Place.Address, @m.Place.City, @m.Place.ZIPCode</div>
+                                foreach (Manifestation m in user.Manifestations)
+                                {
+                                    <div> - @m.Name, @m.ManifestationType, @m.numOfSeats, @m.DateAndTime.ToString("dd/MM/yyyy hh:mm tt"), @m.PriceRegular, @m.Status, @m.Place.Address, @m.Place.City, @m.Place.ZIPCode</div>
+                                }
                             }
+
                         </td>
                     </tr>
                 }
-
-
-
             </table>
 
         </div>
+        <br />
+
+        <div>
+            <form action="~/Profile/ShowTickets">
+                <input type="submit" value="SHOW TICKETS" />
+            </form>
+        </div>
+        <br />
+        if (user.Role.Equals(Role.SALESMAN))
+        {
+            <div>
+                <form action="~/Profile/ShowCustomers">
+                    <input type="submit" value="SHOW CUSTOMERS" />
+                </form>
+            </div>
+        }
+
     }
 
 }

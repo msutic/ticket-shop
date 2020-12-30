@@ -8,6 +8,6 @@ namespace TicketShopMVC.Models
     public enum TicketStatus
     {
         RESERVED,
-        CANCEL
+        CANCELED
     }
 }

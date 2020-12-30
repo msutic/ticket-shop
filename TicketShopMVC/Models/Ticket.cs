@@ -7,7 +7,8 @@ namespace TicketShopMVC.Models
 {
     public class Ticket
     {
-        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Id { get; set; }
         public Manifestation ReservedFor { get; set; }
         public DateTime DateAndTime { get; set; }
         public int Price { get; set; }
@@ -20,13 +21,14 @@ namespace TicketShopMVC.Models
 
         }
 
-        public Ticket(int id, Manifestation reservedFor, DateTime dateAndTime, int price, User customer, TicketStatus status, TicketType type)
+        public Ticket(string id, Manifestation reservedFor, DateTime dateAndTime, int price, string username, TicketStatus status, TicketType type)
         {
+            Customer = new User();
             Id = id;
             ReservedFor = reservedFor;
             DateAndTime = dateAndTime;
             Price = price;
-            Customer = customer;
+            Username = username;
             Status = status;
             Type = type;
         }

@@ -12,10 +12,12 @@ namespace TicketShopMVC.Models
     {
         public static List<User> ReadUsers(string path)
         {
+            //List<Ticket> allTickets = ReadTickets("~/App_Data/tickets.txt");
             List<User> users = new List<User>();
             path = HostingEnvironment.MapPath(path);
             FileStream stream = new FileStream(path, FileMode.Open);
             StreamReader sr = new StreamReader(stream);
+            
             string line = "";
             while((line = sr.ReadLine()) != null)
             {
@@ -39,33 +41,31 @@ namespace TicketShopMVC.Models
                     {
                         deleted = false;
                     }
-                    List<Ticket> reservedTickets = new List<Ticket>();
 
-                    //string[] ids = tokens[7].Split(',');
+                    List<string> ticket = new List<string>();
 
-                    //for(int i = 0; i < ids.Length; i++)
-                    //{
+                    string tok = tokens[7];
+                    string[] tickets = tok.Split(',');
 
-                    //}
+                    foreach (string t in tickets)
+                    {
+                        ticket.Add(t);
+                    }
 
                     UserType type = new UserType(tokens[9].Split(',')[0], int.Parse(tokens[9].Split(',')[1]), int.Parse(tokens[9].Split(',')[2]));
-                    u = new User(tokens[0], tokens[1], tokens[2], tokens[3], (Gender)Enum.Parse(typeof(Gender), tokens[4]), birthDate, (Role)Enum.Parse(typeof(Role), tokens[6]), reservedTickets, int.Parse(tokens[8]), type);
+                    u = new User(tokens[0], tokens[1], tokens[2], tokens[3], (Gender)Enum.Parse(typeof(Gender), tokens[4]), birthDate, (Role)Enum.Parse(typeof(Role), tokens[6]), ticket, int.Parse(tokens[8]), type);
                     u.IsDeleted = deleted;
                 } else if(tokens[6] == "SALESMAN")
                 {
                     string manifes = tokens[7];
                     string[] str = manifes.Split(',');
 
-                    List<Manifestation> manifestations = ReadManifestations("~/App_Data/manifestations.txt");
-                    List<Manifestation> manifestationList = new List<Manifestation>();
+                    //List<Manifestation> manifestations = ReadManifestations("~/App_Data/manifestations.txt");
+                    List<string> manifestationList = new List<string>();
 
-                    foreach(Manifestation m in manifestations)
+                    foreach(string s in str)
                     {
-                        foreach(string s in str)
-                        {
-                            if (s.Equals(m.Name))
-                                manifestationList.Add(m);
-                        }
+                        manifestationList.Add(s);
                     }
                     //treba da dodam i za prodavca DELETED
                     if(tokens[8] == "DELETED")
@@ -103,17 +103,7 @@ namespace TicketShopMVC.Models
 
             List<Manifestation> manifestations = ReadManifestations("~/App_Data/manifestations.txt");
             string manifestationList = "";
-
-            foreach(Manifestation m in manifestations)
-            {
-                foreach(Manifestation userM in user.Manifestations)
-                {
-                    if (m.Name.Equals(userM.Name))
-                    {
-                        manifestationList += $"{m.Name},";
-                    }
-                }
-            }
+            
 
             //proveri da li je kupac ili prodavac, jer ce drugaciji biti zapis...
             if (user.Role.Equals(Role.CUSTOMER))
@@ -122,6 +112,19 @@ namespace TicketShopMVC.Models
 
             } else if (user.Role.Equals(Role.SALESMAN))
             {
+                if (user.Manifestations != null)
+                {
+                    foreach (Manifestation m in manifestations)
+                    {
+                        foreach (Manifestation userM in user.Manifestations)
+                        {
+                            if (m.Name.Equals(userM.Name))
+                            {
+                                manifestationList += $"{m.Name},";
+                            }
+                        }
+                    }
+                }
                 sw.WriteLine($"{user.Username};{user.Password};{user.Name};{user.Lastname};{user.Gender};{user.DateOfBirth.ToString("dd/M/yyyy")};{user.Role};{manifestationList};");
 
             }
@@ -154,6 +157,96 @@ namespace TicketShopMVC.Models
             return manifestations;
         }
 
+        public static List<Ticket> ReadTickets(string path)
+        {
+            
+            List<Ticket> tickets = new List<Ticket>();
+            List<Manifestation> manifestations = ReadManifestations("~/App_Data/manifestations.txt");
+            path = HostingEnvironment.MapPath(path);
+            FileStream stream = new FileStream(path, FileMode.Open);
+            StreamReader sr = new StreamReader(stream);
+            Manifestation m = new Manifestation();
+            string user = "";
+            
+            //User user = new User();
+
+            string line = "";
+            while((line = sr.ReadLine()) != null)
+            {
+                string[] tokens = line.Split(';');
+                
+                for(int i = 0; i < manifestations.Count; i++)
+                {
+                    if (manifestations[i].Name.ToLower().Equals(tokens[1].ToLower()))
+                    {
+                        m = manifestations[i];
+                        break;
+                    }
+                }
+                user = tokens[3];
+                Ticket t = new Ticket(tokens[0], m, m.DateAndTime, int.Parse(tokens[2]), user, (TicketStatus)Enum.Parse(typeof(TicketStatus), tokens[4]), (TicketType)Enum.Parse(typeof(TicketType), tokens[5]));
+                tickets.Add(t);
+            }
+
+            sr.Close();
+            stream.Close();
+
+            return tickets;
+        }
+
+        public static List<Comment> ReadComments(string path)
+        {
+            List<Comment> comments = new List<Comment>();
+            path = HostingEnvironment.MapPath(path);
+            FileStream stream = new FileStream(path, FileMode.Open);
+            StreamReader sr = new StreamReader(stream);
+            bool verified = false;
+
+            string line = "";
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] tokens = line.Split(';');
+                if (tokens[4].Equals("VERIFIED"))
+                {
+                    verified = true;
+                }
+                else
+                {
+                    verified = false;
+                }
+                Comment c = new Comment(tokens[0],tokens[1],tokens[2],int.Parse(tokens[3]));
+                
+                c.Verified = verified;
+
+                List<User> users = (List<User>)HttpContext.Current.Application["users"];
+                List<Manifestation> manifestations = (List<Manifestation>)HttpContext.Current.Application["manifestations"];
+
+                foreach(User u in users)
+                {
+                    if (u.Username.Equals(c.User))
+                    {
+                        c.Customer = u;
+                    }
+                }
+
+                foreach(Manifestation m in manifestations)
+                {
+                    if (m.Name.Equals(c.ManifestationName))
+                    {
+                        c.Manifestation = m;
+                    }
+                }
+
+                comments.Add(c);
+            }
+
+            sr.Close();
+            stream.Close();
+
+            return comments;
+
+        }
+
         public static void SaveManifestation(Manifestation manifestation)
         {
             string path = HostingEnvironment.MapPath("~/App_Data/manifestations.txt");
@@ -174,9 +267,10 @@ namespace TicketShopMVC.Models
 
             string deleted = "";
             string content = "";
-            string manifestList = "";
+            
             foreach(User user in users)
             {
+                string manifestList = "";
                 if (user.IsDeleted)
                 {
                     deleted = "DELETED";
@@ -194,16 +288,20 @@ namespace TicketShopMVC.Models
 
                 } else if (user.Role.Equals(Role.SALESMAN))
                 {
-                    foreach(Manifestation m in manifestations)
+                    if(user.Manifestations != null)
                     {
-                        foreach(Manifestation userM in user.Manifestations)
+                        foreach (Manifestation m in manifestations)
                         {
-                            if (m.Name.Equals(userM.Name))
+                            foreach (Manifestation userM in user.Manifestations)
                             {
-                                manifestList += $"{m.Name},";
+                                if (m.Name.Equals(userM.Name))
+                                {
+                                    manifestList += $"{m.Name},";
+                                }
                             }
                         }
                     }
+                    
                     content += $"{user.Username};{user.Password};{user.Name};{user.Lastname};{user.Gender};{user.DateOfBirth.ToString("dd/M/yyyy")};{user.Role};{manifestList};\n";
                 }
             }
@@ -224,5 +322,7 @@ namespace TicketShopMVC.Models
 
             File.WriteAllText(path, content);
         }
+
+        
     }
 }

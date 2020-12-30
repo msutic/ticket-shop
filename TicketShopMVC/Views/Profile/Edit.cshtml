@@ -20,7 +20,7 @@
             <table>
                 <tr>
                     <td>username:</td>
-                    <td><input type="text" name="username" value="@Model.Username" /></td>
+                    <td><input type="text" disabled name="username" value="@Model.Username" /></td>
                 </tr>
                 <tr>
                     <td>Password: </td>
@@ -66,12 +66,17 @@
                     }
 
                 </tr>
+                @{ 
+                    DateTime birthDate = user.DateOfBirth;
+                    string s = birthDate.ToString();
+
+                    string date = $"{s.Split('/')[2]}-{s.Split('/')[1]}-{s.Split('/')[0]}";
+                }
                 <tr>
                     <td>Birth Date: </td>
-                    <td><input type="date" name="dateOfBirth" value="@Model.DateOfBirth"/></td>
+                    <td><input type="date" name="dateOfBirth" value="@date"/></td>
                 </tr>
                 <tr>
-
                     <td align="center"><br /><input type="submit" value="Modify" /></td>
                 </tr>
             </table>
