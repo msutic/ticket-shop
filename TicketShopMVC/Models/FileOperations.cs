@@ -10,6 +10,10 @@ namespace TicketShopMVC.Models
 {
     public class FileOperations
     {
+        public static void hellooo()
+        {
+            Console.WriteLine("HELLO ");
+        }
         public static List<User> ReadUsers(string path)
         {
             //List<Ticket> allTickets = ReadTickets("~/App_Data/tickets.txt");
